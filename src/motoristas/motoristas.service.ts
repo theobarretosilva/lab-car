@@ -5,8 +5,13 @@ import { Motorista } from './motorista.entity';
 export class MotoristasService {
   private readonly motoristas: Array<Motorista> = [];
 
-  public getMotoristas() {
+  public getMotoristas(): Motorista[] {
     return this.motoristas;
+  }
+
+  public searchByCpf(cpf: string): Motorista {
+    const motorista = this.motoristas.find((motorista) => motorista.cpf == cpf);
+    return motorista;
   }
 
   public create(motorista: Motorista) {
