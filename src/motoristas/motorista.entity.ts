@@ -1,5 +1,4 @@
-import { Matches, IsNotEmpty, MaxLength, IsString } from 'class-validator';
-import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
+import { Matches, IsNotEmpty, MaxLength } from 'class-validator';
 import { cpf } from 'src/utils/validations';
 
 export class Motorista {
@@ -11,17 +10,10 @@ export class Motorista {
   })
   name: string;
 
-  // @IsString({
-  //   message: (args: ValidationArguments) => {
-  //     const hoje = new Date().getFullYear;
-  //     const nascimento = parseInt(new Date(args).getFullYear);
-  //     const idade: number = hoje - nascimento;
-  //     if (idade >= 18) {
-  //       return args;
-  //     }
-  //   },
-  // })
-  birthDate: Date;
+  @IsNotEmpty({
+    message: 'A data de nascimento é obrigatória!',
+  })
+  birthDate: string;
 
   @IsNotEmpty({
     message: 'O CPF é obrigatório!',

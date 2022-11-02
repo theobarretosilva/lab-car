@@ -15,7 +15,16 @@ export class MotoristasService {
   }
 
   public create(motorista: Motorista) {
-    this.motoristas.push(motorista);
-    return motorista;
+    const birthDate = new Date(motorista.birthDate);
+    const dataHoje = new Date();
+    const idade: number = dataHoje.getFullYear() - birthDate.getFullYear();
+    console.log(idade);
+
+    if (idade >= 18) {
+      this.motoristas.push(motorista);
+      return motorista;
+    } else {
+      throw new Error('O motorista deve ser maior de 18 anos!');
+    }
   }
 }
