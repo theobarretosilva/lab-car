@@ -5,6 +5,7 @@
 // deletar elemento - destroy
 
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Motorista } from './motorista.entity';
 import { MotoristasService } from './motoristas.service';
 
 @Controller('motoristas')
@@ -12,7 +13,7 @@ export class MotoristasController {
   constructor(private motoristaService: MotoristasService) {}
 
   @Get()
-  public findAll() {
+  public findAll(): Array<Motorista> {
     return this.motoristaService.getMotoristas();
   }
 
@@ -22,7 +23,7 @@ export class MotoristasController {
   // }
 
   @Post()
-  public create(@Body() motorista) {
+  public create(@Body() motorista: Motorista): Motorista {
     const motoristaCreated = this.motoristaService.create(motorista);
     return motoristaCreated;
   }
