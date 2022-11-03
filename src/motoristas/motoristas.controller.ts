@@ -13,13 +13,8 @@ export class MotoristasController {
   constructor(private service: MotoristasService) {}
 
   @Get()
-  public findAll(
-    @Query('page') page: number,
-    @Query('size') size: number,
-  ): Array<Motorista> {
-    console.log(page);
-    console.log(size);
-    return this.service.getMotoristas();
+  public findAll(@Query('page') page = 0, @Query('size') size = 10) {
+    return this.service.getMotoristas(page, size);
   }
 
   @Get(':cpf')

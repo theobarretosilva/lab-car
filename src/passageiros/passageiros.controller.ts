@@ -4,21 +4,28 @@
 // atualizar elementos - update
 // deletar elemento - destroy
 
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param } from '@nestjs/common';
+import { Passageiro } from './passageiros.entity';
 import { PassageirosService } from './passageiros.service';
 
 @Controller('passageiros')
 export class PassageirosController {
-  constructor(private passageiroService: PassageirosService) {}
+  constructor(private service: PassageirosService) {}
 
   @Get()
-  public getAll() {
-    return this.passageiroService.getPassageiros();
+  public findAll() {
+    return this.service.getPassageiros();
+  }
+
+  @Get(':cpf')
+  public getPassageiroByCpf(@Param('cpf') cpf: string): Passageiro {
+    const passageiro = this.service.searchPassageiroByCpf(cpf);
+    return passageiro;
   }
 
   @Post()
   public create(@Body() passageiro) {
-    const passageiroCreated = this.passageiroService.create(passageiro);
+    const passageiroCreated = this.service.create(passageiro);
     return passageiroCreated;
   }
 }

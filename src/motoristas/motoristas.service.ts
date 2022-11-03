@@ -5,7 +5,11 @@ import { Motorista } from './motorista.entity';
 export class MotoristasService {
   private readonly motoristas: Array<Motorista> = [];
 
-  public getMotoristas(): Motorista[] {
+  public async getMotoristas(page: number, size: number) {
+    const indiceInicial = page * size;
+    const indiceFinal = indiceInicial + size;
+
+    const motoristas = await this.motoristas.get
     return this.motoristas;
   }
 

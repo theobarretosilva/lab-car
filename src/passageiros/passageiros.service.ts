@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Passageiro } from './passageiros.entity';
 
 @Injectable()
 export class PassageirosService {
@@ -6,6 +7,13 @@ export class PassageirosService {
 
   public getPassageiros() {
     return this.passageiros;
+  }
+
+  public searchPassageiroByCpf(cpf: string): Passageiro {
+    const passageiro = this.passageiros.find(
+      (passageiro) => passageiro.cpf == cpf,
+    );
+    return passageiro;
   }
 
   public create(passageiro) {
