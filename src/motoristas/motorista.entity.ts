@@ -32,4 +32,6 @@ export class Motorista {
     message: 'O modelo do carro é obrigatório!',
   })
   carModel: string;
+
+  blocked?: boolean = false;
 }

@@ -4,7 +4,18 @@
 // atualizar elementos - update
 // deletar elemento - destroy
 
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { cpf } from 'src/utils/validations';
 import { Motorista } from './motorista.entity';
 import { MotoristasService } from './motoristas.service';
 
@@ -13,19 +24,49 @@ export class MotoristasController {
   constructor(private service: MotoristasService) {}
 
   @Get()
-  public findAll(@Query('page') page = 0, @Query('size') size = 10) {
-    return this.service.getMotoristas(page, size);
+  public async findMotorista(
+    @Query('page') page = 0,
+    @Query('size') size = 10,
+  ) {
+    return await this.service.getMotoristas(page, size);
   }
 
   @Get(':cpf')
-  public getMotoristaByCPF(@Param('cpf') cpf: string): Motorista {
-    const motorista = this.service.searchByCpf(cpf);
+  public async getMotoristaByCPF(@Param('cpf') cpf: string) {
+    const motorista = await this.service.searchByCpf(cpf);
+
+    if (!motorista) {
+      throw new NotFoundException({
+        statusCode: 404,
+        message: 'Motorista não encontrado',
+      });
+    }
+
     return motorista;
   }
 
   @Post()
-  public create(@Body() motorista: Motorista): Motorista {
-    const motoristaCreated = this.service.create(motorista);
+  public async createMotorista(
+    @Body() motorista: Motorista,
+  ): Promise<Motorista> {
+    const motoristaCreated = await this.service.criarMotorista(motorista);
     return motoristaCreated;
+  }
+
+  @Put('updateMotorista/:cpf')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  public async updateMotorista(@Param('cpf') cpf: string) {
+    const motorista = await this.service.searchByCpf(cpf);
+  }
+
+  @Put('blockMotorista/:cpf')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  public async blockMotorista(@Param('cpf') cpf: string) {
+    const motorista = await this.service.searchByCpf(cpf);
+  }
+
+  @Delete(':cpf')
+  public async deleteMotorista(@Param('cpf') cpf: string) {
+    const motorista = await this.service.searchByCpf(cpf);
   }
 }
