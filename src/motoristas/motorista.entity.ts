@@ -1,4 +1,4 @@
-import { Matches, IsNotEmpty, MaxLength } from 'class-validator';
+import { Matches, IsNotEmpty, MaxLength, IsDate } from 'class-validator';
 import { cpf } from 'src/utils/validations';
 
 export class Motorista {
@@ -13,7 +13,7 @@ export class Motorista {
   @IsNotEmpty({
     message: 'A data de nascimento é obrigatória!',
   })
-  birthDate: string;
+  birthDate: Date;
 
   @IsNotEmpty({
     message: 'O CPF é obrigatório!',

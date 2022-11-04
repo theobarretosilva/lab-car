@@ -33,9 +33,13 @@ export class MotoristasService {
 
   public async criarMotorista(motorista: Motorista): Promise<Motorista> {
     const motoristaExiste = await this.searchByCpf(motorista.cpf);
+    console.log(motorista.birthDate);
     const birthDate = new Date(motorista.birthDate);
+    console.log(birthDate);
     const dataHoje = new Date();
+    console.log(dataHoje);
     const idade: number = dataHoje.getFullYear() - birthDate.getFullYear();
+    console.log(idade);
 
     if (idade >= 18) {
       if (motoristaExiste) {

@@ -1,9 +1,3 @@
-// cadastrar - create
-// listar varios - findAll
-// listar 1 elemento só = find
-// atualizar elementos - update
-// deletar elemento - destroy
-
 import {
   Body,
   Controller,
@@ -15,7 +9,6 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { cpf } from 'src/utils/validations';
 import { Motorista } from './motorista.entity';
 import { MotoristasService } from './motoristas.service';
 
@@ -53,13 +46,13 @@ export class MotoristasController {
     return motoristaCreated;
   }
 
-  @Put('updateMotorista/:cpf')
+  @Put('update/:cpf')
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   public async updateMotorista(@Param('cpf') cpf: string) {
     const motorista = await this.service.searchByCpf(cpf);
   }
 
-  @Put('blockMotorista/:cpf')
+  @Put('block/:cpf')
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   public async blockMotorista(@Param('cpf') cpf: string) {
     const motorista = await this.service.searchByCpf(cpf);
