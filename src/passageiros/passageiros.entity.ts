@@ -26,5 +26,5 @@ export class Passageiro {
   @IsNotEmpty({
     message: 'O endereço é obrigatório!',
   })
-  endereco: string;
+  address: string;
 }

@@ -20,8 +20,9 @@ export class MotoristasController {
   public async findMotorista(
     @Query('page') page = 0,
     @Query('size') size = 10,
+    @Query('name') name: string,
   ) {
-    return await this.service.getMotoristas(page, size);
+    return await this.service.getMotoristas(page, size, name);
   }
 
   @Get(':cpf')

@@ -10,19 +10,28 @@ import { Motorista } from './motorista.entity';
 export class MotoristasService {
   constructor(private database: Database) {}
 
-  public async getMotoristas(page: number, size: number) {
+  public async getMotoristas(page: number, size: number, name: string) {
     const indiceInicial = page * size;
     const indiceFinal = indiceInicial + size;
 
     const motoristas = await this.database.getMotoristas();
-    if (motoristas.length > indiceInicial) {
-      if (motoristas.length > indiceFinal) {
-        return motoristas.slice(indiceInicial, indiceFinal);
+    if (page && size) {
+      if (motoristas.length > indiceInicial) {
+        if (motoristas.length > indiceFinal) {
+          return motoristas.slice(indiceInicial, indiceFinal);
+        } else {
+          return motoristas.slice(indiceInicial, motoristas.length - 1);
+        }
       } else {
-        return motoristas.slice(indiceInicial, motoristas.length - 1);
+        return [];
       }
+    } else if (name) {
+      const newFilter = motoristas.filter((value) => {
+        return value.name.toLowerCase().includes(name);
+      });
+      return newFilter;
     } else {
-      return [];
+      return motoristas;
     }
   }
 
@@ -33,13 +42,9 @@ export class MotoristasService {
 
   public async criarMotorista(motorista: Motorista): Promise<Motorista> {
     const motoristaExiste = await this.searchByCpf(motorista.cpf);
-    console.log(motorista.birthDate);
     const birthDate = new Date(motorista.birthDate);
-    console.log(birthDate);
     const dataHoje = new Date();
-    console.log(dataHoje);
     const idade: number = dataHoje.getFullYear() - birthDate.getFullYear();
-    console.log(idade);
 
     if (idade >= 18) {
       if (motoristaExiste) {

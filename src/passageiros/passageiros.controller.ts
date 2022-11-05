@@ -20,8 +20,9 @@ export class PassageirosController {
   public async findPassageiro(
     @Query('page') page = 0,
     @Query('size') size = 10,
+    @Query('name') name: string,
   ) {
-    return await this.service.getPassageiros(page, size);
+    return await this.service.getPassageiros(page, size, name);
   }
 
   @Get(':cpf')
@@ -42,7 +43,7 @@ export class PassageirosController {
   public async createPassageiro(
     @Body() passageiro: Passageiro,
   ): Promise<Passageiro> {
-    const passageiroCreated = await this.service.createPassageiro(passageiro);
+    const passageiroCreated = await this.service.criarPassageiro(passageiro);
     return passageiroCreated;
   }
 
