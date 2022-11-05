@@ -3,21 +3,32 @@ import {
   ConflictException,
   Injectable,
 } from '@nestjs/common';
+import { passageiroDatabase } from 'src/database/passageiroDatabase';
 import { Passageiro } from './passageiros.entity';
 
 @Injectable()
 export class PassageirosService {
-  private readonly passageiros = [];
+  constructor(private database: passageiroDatabase) {}
 
-  public getPassageiros() {
-    return this.passageiros;
+  public async getPassageiros(page: number, size: number) {
+    const indiceInicial = page * size;
+    const indiceFinal = indiceInicial + size;
+
+    const passageiros = await this.database.getPassageiros();
+    if (passageiros.length > indiceInicial) {
+      if (passageiros.length > indiceFinal) {
+        return passageiros.slice(indiceInicial, indiceFinal);
+      } else {
+        return passageiros.slice(indiceInicial, passageiros.length - 1);
+      }
+    } else {
+      return [];
+    }
   }
 
-  public searchPassageiroByCpf(cpf: string): Passageiro {
-    const passageiro = this.passageiros.find(
-      (passageiro) => passageiro.cpf == cpf,
-    );
-    return passageiro;
+  public async searchPassageiroByCpf(cpf: string) {
+    const passageiros = await this.database.getPassageiros();
+    return passageiros.find((passageiro) => passageiro.cpf == cpf);
   }
 
   public create(passageiro) {
