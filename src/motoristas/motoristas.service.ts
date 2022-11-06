@@ -70,6 +70,11 @@ export class MotoristasService {
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   public async blockUnblockMotorista(cpf: string) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async deleteMotorista(cpf: string) {}
+  public async apagarMotorista(cpf: string) {
+    const motoristas = await this.database.getMotoristas();
+    const novaListaMotoristas = motoristas.filter(
+      (motorista) => motorista.cpf != cpf,
+    );
+    await this.database.gravarMotorista(novaListaMotoristas);
+  }
 }

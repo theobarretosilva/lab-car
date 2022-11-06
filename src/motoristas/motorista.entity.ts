@@ -34,4 +34,6 @@ export class Motorista {
   carModel: string;
 
   blocked?: boolean = false;
+
+  viagens? = [];
 }

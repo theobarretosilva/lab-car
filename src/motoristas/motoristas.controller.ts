@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
@@ -60,7 +61,19 @@ export class MotoristasController {
   }
 
   @Delete(':cpf')
+  @HttpCode(204)
   public async deleteMotorista(@Param('cpf') cpf: string) {
     const motorista = await this.service.searchByCpf(cpf);
+
+    if (!motorista) {
+      throw new NotFoundException({
+        statusCode: 404,
+        message: 'Motorista não encontrado',
+      });
+    } else if (motorista.viagens.length == 0) {
+      await this.service.apagarMotorista(cpf);
+    } else {
+      throw new 
+    }
   }
 }
