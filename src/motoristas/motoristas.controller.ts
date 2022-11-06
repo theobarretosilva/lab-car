@@ -59,7 +59,7 @@ export class MotoristasController {
       });
     } else if (motorista.viagens.length == 0) {
       await this.service.apagarMotorista(cpf);
-      await this.service.criarMotorista(motorista);
+      return await this.service.criarMotorista(motorista);
     }
   }
 
@@ -79,7 +79,7 @@ export class MotoristasController {
   }
 
   @Delete(':cpf')
-  @HttpCode(204)
+  @HttpCode(200)
   public async deleteMotorista(@Param('cpf') cpf: string) {
     const motorista = await this.service.searchByCpf(cpf);
 

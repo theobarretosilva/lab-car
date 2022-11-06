@@ -15,24 +15,24 @@ export class MotoristasService {
     const indiceFinal = indiceInicial + size;
 
     const motoristas = await this.database.getMotoristas();
-    // if (page && size) {
-    if (motoristas.length > indiceInicial) {
-      if (motoristas.length > indiceFinal) {
-        return motoristas.slice(indiceInicial, indiceFinal);
+    if (page && size) {
+      if (motoristas.length > indiceInicial) {
+        if (motoristas.length > indiceFinal) {
+          return motoristas.slice(indiceInicial, indiceFinal);
+        } else {
+          return motoristas.slice(indiceInicial, motoristas.length - 1);
+        }
       } else {
-        return motoristas.slice(indiceInicial, motoristas.length - 1);
+        return [];
       }
+    } else if (name) {
+      const newFilter = motoristas.filter((value) => {
+        return value.name.toLowerCase().includes(name);
+      });
+      return newFilter;
     } else {
-      return [];
+      return motoristas;
     }
-    // } else if (name) {
-    //   const newFilter = motoristas.filter((value) => {
-    //     return value.name.toLowerCase().includes(name);
-    //   });
-    //   return newFilter;
-    // } else {
-    //   return motoristas;
-    // }
   }
 
   public async searchByCpf(cpf: string) {

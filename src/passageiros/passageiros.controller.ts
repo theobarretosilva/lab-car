@@ -47,7 +47,7 @@ export class PassageirosController {
     return passageiroCreated;
   }
 
-  @Put('update/:cpf')
+  @Put(':cpf')
   public async updatePassageiro(
     @Param('cpf') cpf: string,
     @Body() passageiro: Passageiro,
@@ -59,27 +59,12 @@ export class PassageirosController {
       });
     } else {
       await this.service.apagarPassageiro(cpf);
-      await this.service.criarPassageiro(passageiro);
-    }
-  }
-
-  @Put('blockUnblock/:cpf')
-  @HttpCode(200)
-  public async blockPassageiro(@Param('cpf') cpf: string, @Body() body) {
-    const passageiro = await this.service.searchByCpf(cpf);
-
-    if (!passageiro) {
-      throw new NotFoundException({
-        statusCode: 404,
-        message: 'Passageiro não encontrado',
-      });
-    } else {
-      await this.service.blockUnblockPassageiro(cpf, body);
+      return await this.service.criarPassageiro(passageiro);
     }
   }
 
   @Delete(':cpf')
-  @HttpCode(204)
+  @HttpCode(200)
   public async deletePassageiro(@Param('cpf') cpf: string) {
     const passageiro = await this.service.searchByCpf(cpf);
 

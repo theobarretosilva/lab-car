@@ -64,16 +64,6 @@ export class PassageirosService {
     }
   }
 
-  public async blockUnblockPassageiro(cpf: string, body) {
-    const passageiros = await this.database.getPassageiros();
-    const passageiroFiltrado = passageiros.find(
-      (passageiro) => passageiro.cpf == cpf,
-    );
-    passageiroFiltrado.blocked = body.blocked;
-    await this.apagarPassageiro(cpf);
-    await this.database.gravarPassageiro(passageiros);
-  }
-
   public async apagarPassageiro(cpf: string) {
     const passageiros = await this.database.getPassageiros();
     const novaListaPassageiros = passageiros.filter(
