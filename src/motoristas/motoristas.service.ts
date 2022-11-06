@@ -64,11 +64,16 @@ export class MotoristasService {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async updateInfoMotorista(cpf: string) {}
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async blockUnblockMotorista(cpf: string) {}
+  public async blockUnblockMotorista(cpf: string, blocked: boolean) {
+    const motoristas = await this.database.getMotoristas();
+    const motoristaFiltrado = motoristas.find(
+      (motorista) => motorista.cpf == cpf,
+    );
+    console.log(blocked);
+    motoristaFiltrado.blocked == blocked;
+    console.log(motoristaFiltrado);
+    motoristas.push(motoristaFiltrado);
+  }
 
   public async apagarMotorista(cpf: string) {
     const motoristas = await this.database.getMotoristas();

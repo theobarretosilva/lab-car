@@ -1,4 +1,4 @@
-import { Matches, IsNotEmpty, MaxLength, IsDate } from 'class-validator';
+import { Matches, IsNotEmpty, MaxLength } from 'class-validator';
 import { cpf } from 'src/utils/validations';
 
 export class Motorista {

@@ -50,20 +50,35 @@ export class MotoristasController {
 
   @Put('update/:cpf')
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async updateMotorista(@Param('cpf') cpf: string) {
-    const motorista = await this.service.searchByCpf(cpf);
+  public async updateMotorista(
+    @Param('cpf') cpf: string,
+    @Body() motorista: Motorista,
+  ) {
+    if (!motorista) {
+      throw new NotFoundException({
+        statusCode: 404,
+        message: 'Motorista não encontrado',
+      });
+    } else if (motorista.viagens.length == 0) {
+      await this.service.apagarMotorista(cpf);
+      await this.service.criarMotorista(motorista);
+    }
   }
 
-  @Put('block/:cpf')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async blockMotorista(@Param('cpf') cpf: string) {
-    const motorista = await this.service.searchByCpf(cpf);
+  @Put('blockUnblock/:cpf')
+  @HttpCode(200)
+  public async blockMotorista(
+    @Param('cpf') cpf: string,
+    @Body() blocked: boolean,
+  ) {
+    await this.service.blockUnblockMotorista(cpf, blocked);
   }
 
   @Delete(':cpf')
   @HttpCode(204)
   public async deleteMotorista(@Param('cpf') cpf: string) {
     const motorista = await this.service.searchByCpf(cpf);
+    console.log(motorista.viagens.length);
 
     if (!motorista) {
       throw new NotFoundException({
@@ -72,8 +87,6 @@ export class MotoristasController {
       });
     } else if (motorista.viagens.length == 0) {
       await this.service.apagarMotorista(cpf);
-    } else {
-      throw new 
     }
   }
 }
