@@ -35,13 +35,13 @@ export class PassageirosService {
     }
   }
 
-  public async searchPassageiroByCpf(cpf: string) {
+  public async searchByCpf(cpf: string) {
     const passageiros = await this.database.getPassageiros();
     return passageiros.find((passageiro) => passageiro.cpf == cpf);
   }
 
   public async criarPassageiro(passageiro: Passageiro): Promise<Passageiro> {
-    const passageiroExiste = await this.searchPassageiroByCpf(passageiro.cpf);
+    const passageiroExiste = await this.searchByCpf(passageiro.cpf);
     const birthDate = new Date(passageiro.birthDate);
     const dataHoje = new Date();
     const idade: number = dataHoje.getFullYear() - birthDate.getFullYear();

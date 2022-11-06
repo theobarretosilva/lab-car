@@ -36,7 +36,6 @@ export class MotoristasController {
         message: 'Motorista não encontrado',
       });
     }
-
     return motorista;
   }
 
@@ -67,11 +66,8 @@ export class MotoristasController {
 
   @Put('blockUnblock/:cpf')
   @HttpCode(200)
-  public async blockMotorista(
-    @Param('cpf') cpf: string,
-    @Body() blocked: boolean,
-  ) {
-    await this.service.blockUnblockMotorista(cpf, blocked);
+  public async blockMotorista(@Param('cpf') cpf: string, @Body() body) {
+    await this.service.blockUnblockMotorista(cpf, body);
   }
 
   @Delete(':cpf')

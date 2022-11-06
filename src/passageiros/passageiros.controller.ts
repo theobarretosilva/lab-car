@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
@@ -27,7 +28,7 @@ export class PassageirosController {
 
   @Get(':cpf')
   public async getPassageiroByCpf(@Param('cpf') cpf: string) {
-    const passageiro = await this.service.searchPassageiroByCpf(cpf);
+    const passageiro = await this.service.searchByCpf(cpf);
 
     if (!passageiro) {
       throw new NotFoundException({
@@ -35,7 +36,6 @@ export class PassageirosController {
         message: 'Passageiro não encontrado',
       });
     }
-
     return passageiro;
   }
 

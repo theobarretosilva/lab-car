@@ -64,15 +64,14 @@ export class MotoristasService {
     }
   }
 
-  public async blockUnblockMotorista(cpf: string, blocked: boolean) {
+  public async blockUnblockMotorista(cpf: string, body) {
     const motoristas = await this.database.getMotoristas();
     const motoristaFiltrado = motoristas.find(
       (motorista) => motorista.cpf == cpf,
     );
-    console.log(blocked);
-    motoristaFiltrado.blocked == blocked;
-    console.log(motoristaFiltrado);
-    motoristas.push(motoristaFiltrado);
+    motoristaFiltrado.blocked = body.blocked;
+    await this.apagarMotorista(cpf);
+    await this.database.gravarMotorista(motoristas);
   }
 
   public async apagarMotorista(cpf: string) {
