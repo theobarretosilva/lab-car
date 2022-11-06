@@ -27,4 +27,8 @@ export class Passageiro {
     message: 'O endereço é obrigatório!',
   })
   address: string;
+
+  blocked?: boolean = false;
+
+  viagens? = [];
 }

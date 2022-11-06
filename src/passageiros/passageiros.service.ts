@@ -63,12 +63,22 @@ export class PassageirosService {
       });
     }
   }
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async updateInfoPassageiro(cpf: string) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async blockUnblockPassageiro(cpf: string) {}
+  public async blockUnblockPassageiro(cpf: string, body) {
+    const passageiros = await this.database.getPassageiros();
+    const passageiroFiltrado = passageiros.find(
+      (passageiro) => passageiro.cpf == cpf,
+    );
+    passageiroFiltrado.blocked = body.blocked;
+    await this.apagarPassageiro(cpf);
+    await this.database.gravarPassageiro(passageiros);
+  }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async deletePassageiro(cpf: string) {}
+  public async apagarPassageiro(cpf: string) {
+    const passageiros = await this.database.getPassageiros();
+    const novaListaPassageiros = passageiros.filter(
+      (passageiro) => passageiro.cpf != cpf,
+    );
+    await this.database.gravarPassageiro(novaListaPassageiros);
+  }
 }

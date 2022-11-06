@@ -3,36 +3,36 @@ import {
   ConflictException,
   Injectable,
 } from '@nestjs/common';
-import { Database } from 'src/database/motoristasDatabase';
+import { motoristaDatabase } from 'src/database/motoristasDatabase';
 import { Motorista } from './motorista.entity';
 
 @Injectable()
 export class MotoristasService {
-  constructor(private database: Database) {}
+  constructor(private database: motoristaDatabase) {}
 
   public async getMotoristas(page: number, size: number, name: string) {
     const indiceInicial = page * size;
     const indiceFinal = indiceInicial + size;
 
     const motoristas = await this.database.getMotoristas();
-    if (page && size) {
-      if (motoristas.length > indiceInicial) {
-        if (motoristas.length > indiceFinal) {
-          return motoristas.slice(indiceInicial, indiceFinal);
-        } else {
-          return motoristas.slice(indiceInicial, motoristas.length - 1);
-        }
+    // if (page && size) {
+    if (motoristas.length > indiceInicial) {
+      if (motoristas.length > indiceFinal) {
+        return motoristas.slice(indiceInicial, indiceFinal);
       } else {
-        return [];
+        return motoristas.slice(indiceInicial, motoristas.length - 1);
       }
-    } else if (name) {
-      const newFilter = motoristas.filter((value) => {
-        return value.name.toLowerCase().includes(name);
-      });
-      return newFilter;
     } else {
-      return motoristas;
+      return [];
     }
+    // } else if (name) {
+    //   const newFilter = motoristas.filter((value) => {
+    //     return value.name.toLowerCase().includes(name);
+    //   });
+    //   return newFilter;
+    // } else {
+    //   return motoristas;
+    // }
   }
 
   public async searchByCpf(cpf: string) {

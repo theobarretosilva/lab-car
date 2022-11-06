@@ -48,7 +48,6 @@ export class MotoristasController {
   }
 
   @Put('update/:cpf')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   public async updateMotorista(
     @Param('cpf') cpf: string,
     @Body() motorista: Motorista,
@@ -67,14 +66,22 @@ export class MotoristasController {
   @Put('blockUnblock/:cpf')
   @HttpCode(200)
   public async blockMotorista(@Param('cpf') cpf: string, @Body() body) {
-    await this.service.blockUnblockMotorista(cpf, body);
+    const motorista = await this.service.searchByCpf(cpf);
+
+    if (!motorista) {
+      throw new NotFoundException({
+        statusCode: 404,
+        message: 'Motorista não encontrado',
+      });
+    } else {
+      await this.service.blockUnblockMotorista(cpf, body);
+    }
   }
 
   @Delete(':cpf')
   @HttpCode(204)
   public async deleteMotorista(@Param('cpf') cpf: string) {
     const motorista = await this.service.searchByCpf(cpf);
-    console.log(motorista.viagens.length);
 
     if (!motorista) {
       throw new NotFoundException({

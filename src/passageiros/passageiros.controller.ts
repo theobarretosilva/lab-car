@@ -48,19 +48,48 @@ export class PassageirosController {
   }
 
   @Put('update/:cpf')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async updatePassageiro(@Param('cpf') cpf: string) {
-    const passageiro = await this.service.searchPassageiroByCpf(cpf);
+  public async updatePassageiro(
+    @Param('cpf') cpf: string,
+    @Body() passageiro: Passageiro,
+  ) {
+    if (!passageiro) {
+      throw new NotFoundException({
+        statusCode: 404,
+        message: 'Passageiro não encontrado',
+      });
+    } else {
+      await this.service.apagarPassageiro(cpf);
+      await this.service.criarPassageiro(passageiro);
+    }
   }
 
-  @Put('block/:cpf')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public async blockPassageiro(@Param('cpf') cpf: string) {
-    const passageiro = await this.service.searchPassageiroByCpf(cpf);
+  @Put('blockUnblock/:cpf')
+  @HttpCode(200)
+  public async blockPassageiro(@Param('cpf') cpf: string, @Body() body) {
+    const passageiro = await this.service.searchByCpf(cpf);
+
+    if (!passageiro) {
+      throw new NotFoundException({
+        statusCode: 404,
+        message: 'Passageiro não encontrado',
+      });
+    } else {
+      await this.service.blockUnblockPassageiro(cpf, body);
+    }
   }
 
   @Delete(':cpf')
+  @HttpCode(204)
   public async deletePassageiro(@Param('cpf') cpf: string) {
-    const passageiro = await this.service.searchPassageiroByCpf(cpf);
+    const passageiro = await this.service.searchByCpf(cpf);
+
+    if (!passageiro) {
+      throw new NotFoundException({
+        statusCode: 404,
+        message: 'Passageiro não encontrado',
+      });
+    } else if (passageiro.viagens.length == 0) {
+      await this.service.apagarPassageiro(cpf);
+    }
   }
 }
