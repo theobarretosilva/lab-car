@@ -1,73 +1,175 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# labCAR
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST usando [NestJS](https://nestjs.com/)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Primeiros passos
 
-## Description
+Para instalar as dependencias é preciso executar o comando **npm**:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
+```
 $ npm install
 ```
 
-## Running the app
+## Comandos
 
-```bash
-# development
-$ npm run start
+No diretório do projeto, você pode executar:
 
-# watch mode
+### **dev**
+
+Executa o aplicativo no modo de desenvolvimento. Que ficará exposto em: http://localhost:3000
+
+```
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+## Endpoints disponíveis:
 
-```bash
-# unit tests
-$ npm run test
+## Motoristas
 
-# e2e tests
-$ npm run test:e2e
+### Listar motoristas:
 
-# test coverage
-$ npm run test:cov
+```
+GET: http://localhost:3000/motoristas
+ou
+GET: http://localhost:3000/motoristas?name=${nomeMotorista}
+ou
+GET: http://localhost:3000/motoristas?page=${nPagina}&size=${nSize}
+```
+**Resultado:**
+
+```
+{
+  "blocked": false,
+  "viagens": [],
+  "birthDate": "2004-08-25",
+  "carModel": "Golf GTI",
+  "cpf": "102.227.489-04",
+  "licensePlate": "JDAL5555jj",
+  "name": "Théo Barreto Silva"
+}
 ```
 
-## Support
+### Detalhes motoristas:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+GET: http://localhost:3000/motoristas/:cpfMotorista
+```
+**Resultado:**
 
-## Stay in touch
+```
+{
+  "blocked": false,
+  "viagens": [],
+  "birthDate": "2004-08-25",
+  "carModel": "Golf GTI",
+  "cpf": "102.227.489-04",
+  "licensePlate": "JDAL5555jj",
+  "name": "Théo Barreto Silva"
+}
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Criar um motorista:
 
-## License
+```
+POST: http://localhost:3000/motoristas
+Body: {
+	"birthDate": "2004-08-25",
+	"carModel": "Golf GTI",
+	"cpf": "102.227.489-81",
+	"licensePlate": "JDAL5555jj",
+	"name": "Mota"
+}
+```
+**Resultado:**
 
-Nest is [MIT licensed](LICENSE).
+```
+{
+	"blocked": false,
+	"viagens": [],
+	"birthDate": "2004-08-25",
+	"carModel": "Golf GTI",
+	"cpf": "102.227.489-81",
+	"licensePlate": "JDAL5555jj",
+	"name": "Mota"
+}
+```
+
+### Atualizar dados do motorista:
+
+```
+PUT: http://localhost:3000/motoristas/update/:cpfMotorista
+Body: {
+	"birthDate": "1999-12-23",
+	"carModel": "Golf GTI",
+	"cpf": "102.227.489-03",
+	"licensePlate": "KDJD524",
+	"name": "Jurema da silva prazeres"
+}
+```
+**Resultado:**
+
+```
+{
+	"blocked": false,
+	"viagens": [],
+	"birthDate": "1999-12-23",
+	"carModel": "Golf GTI",
+	"cpf": "102.227.489-03",
+	"licensePlate": "KDJD524",
+	"name": "Jurema da silva prazeres"
+}
+```
+
+### Bloquear/desbloquear motorista:
+
+```
+PUT: http://localhost:3000/motoristas/blockUnblock/:cpfMotorista
+Body: {
+	"blocked": true
+}
+```
+**Resultado:**
+
+```
+{
+	"blocked": true,
+	"viagens": [],
+	"birthDate": "2004-08-25",
+	"carModel": "Golf GTI",
+	"cpf": "102.227.489-81",
+	"licensePlate": "JDAL5555jj",
+	"name": "Mota"
+}
+```
+
+### Exclusão de motorista:
+
+```
+DELETE: http://localhost:3000/motoristas/:cpfMotorista
+```
+
+## Passageiros
+
+### Listar passageiros
+
+```
+GET: http://localhost:3000/passageiros
+ou
+GET: http://localhost:3000/passageiros?name=${nomePassageiro}
+ou
+GET: http://localhost:3000/passageiros?page=${nPagina}&size=${nSize}
+```
+**Resultado:**
+
+```
+{
+  "blocked": false,
+  "viagens": [],
+  "name": "Théo Barreto Silva",
+  "birthDate": "1963-08-22",
+  "cpf": "102.227.489-90",
+  "address": "Rua Cruz e Souza, 537"
+}
+```
+
+###
