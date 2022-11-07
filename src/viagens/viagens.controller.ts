@@ -5,6 +5,7 @@ import {
   Body,
   HttpCode,
   NotFoundException,
+  Param,
 } from '@nestjs/common';
 import { passageiroDatabase } from 'src/database/passageiroDatabase';
 import { Viagem } from './viagens.entity';
@@ -30,6 +31,7 @@ export class ViagensController {
       (passageiro) => passageiro.cpf == viagem.idPassageiro,
     );
     if (passageiroFiltrado) {
+      await this.service.addViagemPassageiro(viagem, passageiroFiltrado);
       const viagemCreated = await this.service.solicitarViagem(viagem);
       return viagemCreated;
     } else {
@@ -38,5 +40,12 @@ export class ViagensController {
         message: 'Passageiro não encontrado!',
       });
     }
+  }
+
+  @Get(':enderecoMotorista')
+  public async receberViagensProximas(
+    @Param('enderecoMotorista') enderecoMotorista: string,
+  ): Promise<Viagem[]> {
+    return await this.service.getViagens();
   }
 }
