@@ -172,4 +172,106 @@ GET: http://localhost:3000/passageiros?page=${nPagina}&size=${nSize}
 }
 ```
 
-###
+### Detalhes passageiro
+
+```
+GET: http://localhost:3000/passageiros/:cpfPassageiro
+```
+**Resultado:**
+
+```
+{
+  "blocked": false,
+  "viagens": [],
+  "name": "Théo Barreto Silva",
+  "birthDate": "1963-08-22",
+  "cpf": "102.227.489-90",
+  "address": "Rua Cruz e Souza, 537"
+}
+```
+
+### Criar um passageiro
+
+```
+POST: http://localhost:3000/passageiros
+Body: {
+	"name": "Théo Barreto Silva",
+	"birthDate": "1963-08-22",
+	"cpf": "102.227.489-90",
+	"address": "Rua Cruz e Souza, 537"
+}
+```
+**Resultado:**
+
+```
+{
+  "blocked": false,
+  "viagens": [],
+  "name": "Théo Barreto Silva",
+  "birthDate": "1963-08-22",
+  "cpf": "102.227.489-90",
+  "address": "Rua Cruz e Souza, 537"
+}
+```
+
+### Atualizar dados do passageiro
+
+```
+PUT: http://localhost:3000/passageiros/:cpfPassageiro
+Body: {
+	"name": "Mota",
+	"birthDate": "1963-08-22",
+	"cpf": "628.897.376-04",
+	"address": "Rua Cruz e Souza, 585"
+}
+```
+**Resultado:**
+
+```
+{
+	"blocked": false,
+	"viagens": [],
+	"name": "Mota",
+	"birthDate": "1963-08-22",
+	"cpf": "628.897.376-04",
+	"address": "Rua Cruz e Souza, 585"
+}
+```
+
+### Exclusão de passageiro
+
+```
+DELETE: http://localhost:3000/passageiros/:cpfPassageiro
+```
+
+##Viagens
+
+### Listar viagens
+
+```
+GET: http://localhost:3000/viagens
+```
+**Resultado:**
+
+```
+{
+  "idPassageiro": "102.227.489-90",
+  "enderecoOrigem": "Casa da Segurança - Autorizada Khronos",
+  "enderecoDestino": "Rua Cruz e Souza, 537"
+}
+```
+
+### Solicitar uma viagem
+
+```
+POST: http://localhost:3000/viagens
+```
+**Resultado:**
+
+```
+{
+  "idPassageiro": "102.227.489-90",
+  "enderecoOrigem": "Casa da Segurança - Autorizada Khronos",
+  "enderecoDestino": "Rua Cruz e Souza, 537"
+}
+```
