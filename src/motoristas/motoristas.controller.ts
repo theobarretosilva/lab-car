@@ -74,7 +74,7 @@ export class MotoristasController {
         message: 'Motorista não encontrado',
       });
     } else {
-      await this.service.blockUnblockMotorista(cpf, body);
+      return await this.service.blockUnblockMotorista(cpf, body);
     }
   }
 

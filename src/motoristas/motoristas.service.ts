@@ -72,6 +72,7 @@ export class MotoristasService {
     motoristaFiltrado.blocked = body.blocked;
     await this.apagarMotorista(cpf);
     await this.database.gravarMotorista(motoristas);
+    return motoristaFiltrado;
   }
 
   public async apagarMotorista(cpf: string) {
